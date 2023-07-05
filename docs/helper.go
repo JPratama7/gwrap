@@ -56,8 +56,8 @@ func searchTextElement(pattern string, elements ...*docs.ParagraphElement) (res 
 		}
 
 		curString := strings.ReplaceAll(v.TextRun.Content, "\n", "")
-		curString = strings.ReplaceAll(v.TextRun.Content, "\t", "")
-		curString = strings.ReplaceAll(v.TextRun.Content, " ", "")
+		curString = strings.ReplaceAll(curString, "\t", "")
+		curString = strings.ReplaceAll(curString, " ", "")
 		if strings.Contains(curString, pattern) {
 			res = v
 			break

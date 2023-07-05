@@ -76,6 +76,16 @@ func (gd *GoogleDrive) GetURI(fileId string) (url string, err error) {
 	return
 }
 
+func (gd *GoogleDrive) GetThumbnailLink(fileId string) (url string, err error) {
+	res, err := gd.srv.Files.Get(fileId).Fields("thumbnailLink").Do()
+	if res.HasThumbnail {
+		url = res.ThumbnailLink
+		return
+	}
+	err = fmt.Errorf("file %s does not have thumbnail", fileId)
+	return
+}
+
 func (gd *GoogleDrive) UploadFile(fileName, mimeType, filePath string, permission *drive.Permission) (fileId string, err error) {
 	fileData := drive.File{
 		Name:        fileName,
