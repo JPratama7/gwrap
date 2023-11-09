@@ -97,6 +97,13 @@ func (gd *GoogleDrive) UploadFile(fileName, mimeType, filePath string, permissio
 	if err != nil {
 		return
 	}
+	defer func() {
+		er := open.Close()
+		if er != nil {
+			err = er
+			return
+		}
+	}()
 
 	buffer := make([]byte, 512)
 	_, err = open.Read(buffer)
