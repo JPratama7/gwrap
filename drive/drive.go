@@ -86,9 +86,10 @@ func (gd *GoogleDrive) GetThumbnailLink(fileId string) (url string, err error) {
 	return
 }
 
-func (gd *GoogleDrive) UploadFile(fileName, mimeType, filePath string, permission *drive.Permission) (fileId string, err error) {
+func (gd *GoogleDrive) UploadFile(fileName, mimeType, filePath string, permission *drive.Permission, parentFolder ...string) (fileId string, err error) {
 	fileData := drive.File{
 		Name:        fileName,
+		Parents:     parentFolder,
 		CreatedTime: time.Now().Format(time.RFC3339),
 	}
 
