@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	golang.org/x/oauth2 v0.14.0
-	google.golang.org/api v0.150.0
+	google.golang.org/api v0.151.0
 )
 
 require (
