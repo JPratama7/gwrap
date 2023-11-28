@@ -7,6 +7,7 @@ import (
 	"golang.org/x/oauth2"
 	"log"
 	"os"
+	"time"
 )
 
 func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
@@ -46,4 +47,12 @@ func SaveToken(path string, token *oauth2.Token) {
 		log.Fatalf("Unable to cache OAuth token: %v", err)
 	}
 	json.NewEncoder(f).Encode(token)
+}
+
+func RefreshToken(tok *oauth2.Token, dur ...time.Duration) oauth2.TokenSource {
+	if len(dur) > 0 {
+		return oauth2.ReuseTokenSourceWithExpiry(tok, oauth2.StaticTokenSource(tok), dur[0])
+	}
+
+	return oauth2.ReuseTokenSourceWithExpiry(tok, oauth2.StaticTokenSource(tok), time.Hour*24)
 }
