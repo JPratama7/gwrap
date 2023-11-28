@@ -49,10 +49,10 @@ func SaveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func RefreshToken(tok *oauth2.Token, dur ...time.Duration) oauth2.TokenSource {
+func RefreshToken(ctx context.Context, config *oauth2.Config, tok *oauth2.Token, dur ...time.Duration) oauth2.TokenSource {
 	if len(dur) > 0 {
-		return oauth2.ReuseTokenSourceWithExpiry(tok, oauth2.StaticTokenSource(tok), dur[0])
+		return oauth2.ReuseTokenSourceWithExpiry(tok, config.TokenSource(ctx, tok), dur[0])
 	}
 
-	return oauth2.ReuseTokenSourceWithExpiry(tok, oauth2.StaticTokenSource(tok), time.Hour*24)
+	return oauth2.ReuseTokenSourceWithExpiry(tok, config.TokenSource(ctx, tok), time.Hour*24)
 }
