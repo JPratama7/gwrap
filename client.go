@@ -13,12 +13,12 @@ func GetClient(config *oauth2.Config, fileName string) *http.Client {
 		SaveToken(fileName, tok)
 	}
 
-	newToken, err := RefreshToken(context.Background(), config, tok).Token()
+	tok, err = RefreshToken(context.Background(), config, tok).Token()
 
 	if err != nil {
 		return nil
 	}
-	SaveToken(fileName, newToken)
+	SaveToken(fileName, tok)
 
-	return config.Client(context.Background(), newToken)
+	return config.Client(context.Background(), tok)
 }
